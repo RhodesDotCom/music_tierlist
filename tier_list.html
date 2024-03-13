@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>tier-list</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    </head>
+    <style>
+        .center-text {
+            text-align: center;
+            line-height: 100%;
+            font-size: 18pt;
+            font-family: "Lucida Console", "Courier New", monospace;
+            font-weight: bold;
+        }
+        #content {
+            margin: 20px;
+            width: 90%;
+            overflow: auto;
+        }
+        #header {
+            font-family: "Lucida Console", "Courier New", monospace;
+            font-weight: bold;
+            text-align: center;
+        }
+        #tier-list {
+            margin-bottom: 10px;
+        }
+        #controls {
+            margin-left: 20px;
+        }
+        .tier {
+            display: flex;
+            flex-direction: row;
+            min-height: 100px;
+            width: 90%;
+            border: solid black 4px;
+            background-color: #686770;
+        }
+        .tier-label {
+            width: 100px;
+            max-width: 10%;
+            min-height: 100px;
+            display: flex;
+            line-height: 100px;
+            justify-content: center;
+            font-family: "Lucida Console", "Courier New", monospace;
+            font-weight: bold;
+        }
+        .label{
+            color: black;
+            overflow: hidden;
+        }
+        .tier-row {
+            flex: 1;
+            background-color: #36383b;
+            line-height: 0;
+        }
+        .row-settings {
+            width: 100px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            border-left: solid black 4px;
+            background-color: #686770;
+
+        }
+        .delete-row {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+        }
+        .arrows {
+            width: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .delete {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: auto;
+            width: 30px;
+            height: 30px;
+            border: 2px solid red;
+            border-radius: 50%;
+            color: red;
+            line-height: 30px;
+        }
+        .up {
+            height: 50px;
+            color: black;
+            line-height: 200%;
+            font-size: 26pt;
+        }
+        .down {
+            height: 50px;
+            color: black;
+            line-height: 200%;
+            font-size: 26pt;
+            transform: scale(1, -1);
+        }
+        #items {
+            margin-top: 10px;
+            background-color: #36383b;
+            height: auto
+        }
+        .artwork {
+            width: 100px;
+            height: 100px;
+        }
+
+
+    </style>
+    <body>
+
+        <div id="contents">
+            <header id="header">
+                <h1>{{playlist_name}} Tier List</h1>
+            </header>
+            <div id="tier-list">
+                <div class="tier">
+                    <div class="tier-label" style="background-color: #E30000;" ondblclick="editText(this)"><span class="label">S</span></div>
+                    <div class="tier-row droppable"></div>
+                    <div class="row-settings">
+                        <div class="delete-row"><div class="center-text delete" onclick="deleteRow(this)">X</div></div>
+                        <div class="arrows">
+                            <div class="center-text up" onclick="moveTier(this, 'up')">^</div>
+                            <div class="center-text down" onclick="moveTier(this, 'down')">^</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tier">
+                    <div class="tier-label" style="background-color: #FF5D18;" ondblclick="editText(this)"><span class="label">A</span></div>
+                    <div class="tier-row droppable"></div>
+                    <div class="row-settings">
+                        <div class="delete-row"><div class="center-text delete" onclick="deleteRow(this)">X</div></div>
+                        <div class="arrows">
+                            <div class="center-text up" onclick="moveTier(this, 'up')">^</div>
+                            <div class="center-text down" onclick="moveTier(this, 'down')">^</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tier">
+                    <div class="tier-label" style="background-color: #FFBD10;" ondblclick="editText(this)"><span class="label">B</span></div>
+                    <div class="tier-row droppable"></div>                
+                    <div class="row-settings">
+                        <div class="delete-row"><div class="center-text delete" onclick="deleteRow(this)">X</div></div>
+                        <div class="arrows">
+                            <div class="center-text up" onclick="moveTier(this, 'up')">^</div>
+                            <div class="center-text down" onclick="moveTier(this, 'down')">^</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tier">
+                    <div class="tier-label" style="background-color: #FFEA71;" ondblclick="editText(this)"><span class="label">C</span></div>
+                    <div class="tier-row droppable"></div>
+                    <div class="row-settings">
+                        <div class="delete-row"><div class="center-text delete" onclick="deleteRow(this)">X</div></div>
+                        <div class="arrows">
+                            <div class="center-text up" onclick="moveTier(this, 'up')">^</div>
+                            <div class="center-text down" onclick="moveTier(this, 'down')">^</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="tier">
+                    <div class="tier-label" style="background-color: #8EDF40;" ondblclick="editText(this)"><span class="label">F</span></div>
+                    <div class="tier-row droppable"></div>
+                    <div class="row-settings">
+                        <div class="delete-row"><div class="center-text delete" onclick="deleteRow(this)">X</div></div>
+                        <div class="arrows">
+                            <div class="center-text up" onclick="moveTier(this, 'up')">^</div>
+                            <div class="center-text down" onclick="moveTier(this, 'down')">^</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="controls">
+                <button onclick="addRow()">Add Row</button>
+            </div>
+            <div id="items" class="tier">
+                <div class="tier-row droppable">
+                    {% for image in images %}
+                        <img class="artwork draggable" src="{{ folder }}/{{ image }}" alt="artwork">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <script>
+            function addRow() {
+                var colours = ['#E30000','#FF5D18','#FFBD10','#FFEA71','#8EDF40'];
+                var alphabet = ['A', 'B', 'C', 'D', 'F'];
+                var colourIndex = $('#tier-list > .tier').length % colours.length;
+                var alphabetIndex = $('#tier-list > .tier').length % alphabet.length;
+
+                var newRow = $(`<div class="tier">
+                                    <div class="tier-label" ondblclick="editText(this)"><span class="label"></span></div>
+                                    <div class="tier-row droppable"></div>
+                                    <div class="row-settings">
+                                        <div class="delete-row"><div class="center-text delete" onclick="deleteRow(this)">X</div></div>
+                                        <div class="arrows">
+                                            <div class="center-text up" onclick="moveTier(this, 'up')">^</div>
+                                            <div class="center-text down" onclick="moveTier(this, 'down')">^</div>
+                                        </div>
+                                    </div>
+                                </div>`
+                                );
+                
+                newRow.find('.tier-label').css('background-color', colours[colourIndex]);
+                newRow.find('.tier-label').text(alphabet[alphabetIndex]);
+                newRow.find('.tier-row.droppable').droppable({
+                    drop: function(event, ui) {
+                        $(this).append(ui.draggable);
+                    }
+                });
+
+                $('#tier-list').append(newRow)
+            }
+            
+            function editText(element) {
+                var $this = $(element);
+                var $span = $this.find('span');
+                var currentText = $span.text();
+                $span.empty();
+
+                var input = $('<input type="text">').val(currentText);
+                input.blur(function() {
+                    var newText = $(this).val();
+                    $this.text(newText);
+                });
+                $span.text(input);
+                // input.focus();
+            }
+            function deleteRow(element) {
+                $(element).closest('.tier').remove();
+            }
+            function moveTier(element, direction) {
+                var tier = $(element).closest('.tier');
+                var targetTier;
+                if (direction === 'up') {
+                    targetTier = tier.prev('.tier');
+                    if (targetTier.length !== 0) {
+                        tier.insertBefore(targetTier);
+                    }
+                } else if (direction === 'down') {
+                    targetTier = tier.next('.tier');
+                    if (targetTier.length !== 0) {
+                        tier.insertAfter(targetTier);
+                    }
+                }
+            }
+            
+            $(document).ready(function() {
+                $('.draggable').draggable({
+                    helper: 'clone'
+                });
+                $('.droppable').droppable({
+                    drop: function(event, ui) {
+                        $(this).append(ui.draggable);
+                    }
+                });
+            });
+
+        </script>
+    </body>
+</html>
