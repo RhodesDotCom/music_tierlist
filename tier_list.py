@@ -43,8 +43,16 @@ def main():
     else:
         playlist_id = args.playlistid
 
-    sp = connect(client_id, secret)
-    playlist_name = sp.playlist(playlist_id)['name']
+    if not playlist_id:
+        print('Invalid playlist URL or URI')
+        sys.exit(1)
+
+    try:
+        sp = connect(client_id, secret)
+        playlist_name = sp.playlist(playlist_id)['name']
+    except Exception as e:
+        print(e)
+        sys.exit(1)
 
     foldername = re.sub(r'[^\w\-\.]', '_', playlist_name.lower())
     if not os.path.exists(foldername):
